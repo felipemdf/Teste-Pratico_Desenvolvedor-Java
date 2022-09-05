@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -25,14 +27,20 @@ public class Category extends DefaultFormAndTable{
     
     CategoryController categoryController;
     
-    JLabel categoryFormLabelCategory;
-    JTextField categoryFormFieldCategory;
+    JLabel categoryFormLabelName;
+    JTextField categoryFormFieldName;
     
     JLabel categoryFormLabelId;
     JTextField categoryFormFieldId;
     
-    JLabel categoryFilterLabelCategory;
-    JTextField categoryFilterFieldCategory;
+    JLabel categoryFormLabelDescription;
+    JTextField categoryFormFieldDescription;
+    
+    JLabel categoryFilterLabelId;
+    JTextField categoryFilterFieldId;
+
+    JLabel categoryFilterLabelName;
+    JTextField categoryFilterFieldName;
     
     public Category (CategoryController categoryController) {
          setTitle("Rental Cats - Category");
@@ -46,10 +54,10 @@ public class Category extends DefaultFormAndTable{
         
         categoryFormLabelId = new JLabel("Id");
         categoryFormLabelId.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        categoryFormLabelId.setBounds(defaultTitleRegister.getX(), defaultTitleRegister.getY() + 40, 50, 50);
+        categoryFormLabelId.setBounds(defaultTitleRegister.getX(), defaultTitleRegister.getY() + 40, 50, 35);
         
         categoryFormFieldId = new JTextField("");
-        categoryFormFieldId.setBounds(categoryFormLabelId.getX() - 2, categoryFormLabelId.getY() + 40, 100, 40);
+        categoryFormFieldId.setBounds(categoryFormLabelId.getX() - 1, categoryFormLabelId.getY() + 40, 100, 35);
         categoryFormFieldId.setEnabled(false);
         
         defaultPaneForm.add(categoryFormLabelId);
@@ -57,52 +65,90 @@ public class Category extends DefaultFormAndTable{
         
         
         
-        categoryFormLabelCategory = new JLabel("Category");
-        categoryFormLabelCategory.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        categoryFormLabelCategory.setBounds(categoryFormFieldId.getX() + categoryFormFieldId.getWidth() + 50, defaultTitleRegister.getY() + 40, 150, 50);  
+        categoryFormLabelName = new JLabel("Name");
+        categoryFormLabelName.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        categoryFormLabelName.setBounds(categoryFormFieldId.getX() + categoryFormFieldId.getWidth() + 30, categoryFormLabelId.getY(), 150, 35);  
         
-        categoryFormFieldCategory = new JTextField("");
-        categoryFormFieldCategory.setBounds(categoryFormLabelCategory.getX() - 2, categoryFormLabelCategory.getY() + 40, 500, 40);
+        categoryFormFieldName = new JTextField("");
+        categoryFormFieldName.setBounds(categoryFormLabelName.getX() - 1, categoryFormLabelName.getY() + 40, 400, 35);
         
-        defaultPaneForm.add(categoryFormLabelCategory);
-        defaultPaneForm.add(categoryFormFieldCategory);
+        defaultPaneForm.add(categoryFormLabelName);
+        defaultPaneForm.add(categoryFormFieldName);
         
         
-        categoryFilterLabelCategory = new JLabel("Category");
-        categoryFilterLabelCategory.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        categoryFilterLabelCategory.setBounds(defaultTitleFilter.getX(), defaultTitleFilter.getY() + 40, 100, 50);
+        categoryFormLabelDescription = new JLabel("Description");
+        categoryFormLabelDescription.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        categoryFormLabelDescription.setBounds(categoryFormFieldId.getX(), categoryFormFieldId.getY() + 40, 100, 35);
         
-        categoryFilterFieldCategory = new JTextField("");
-        categoryFilterFieldCategory.setBounds(categoryFilterLabelCategory.getX() - 2, categoryFilterLabelCategory.getY() + 40, 400, 40);
+        categoryFormFieldDescription = new JTextField("");
+        categoryFormFieldDescription.setBounds(categoryFormLabelDescription.getX() - 1, categoryFormLabelDescription.getY() + 40, 1100, 35);
         
-        defaultPaneFilter.add(categoryFilterLabelCategory);
-        defaultPaneFilter.add(categoryFilterFieldCategory);
+        defaultPaneForm.add(categoryFormLabelDescription);
+        defaultPaneForm.add(categoryFormFieldDescription);
+        
+        
+        categoryFilterLabelId = new JLabel("Id");
+        categoryFilterLabelId.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        categoryFilterLabelId.setBounds(defaultTitleFilter.getX(), defaultTitleFilter.getY() + 40, 50, 35);
+        
+        categoryFilterFieldId = new JTextField("");
+        categoryFilterFieldId.setBounds(categoryFilterLabelId.getX() - 2, categoryFilterLabelId.getY() + 40, 100, 35);
+        
+        defaultPaneFilter.add(categoryFilterLabelId);
+        defaultPaneFilter.add(categoryFilterFieldId);
+        
+        
+        categoryFilterLabelName = new JLabel("Name");
+        categoryFilterLabelName.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        categoryFilterLabelName.setBounds(categoryFilterFieldId.getX()  + categoryFilterFieldId.getWidth() + 30, categoryFilterLabelId.getY(), 100, 35);
+        
+        categoryFilterFieldName = new JTextField("");
+        categoryFilterFieldName.setBounds(categoryFilterLabelName.getX(), categoryFilterFieldId.getY(), 400, 35);
+        
+        defaultPaneFilter.add(categoryFilterLabelName);
+        defaultPaneFilter.add(categoryFilterFieldName);
     }
 
     @Override
     public void alterFormComponentsStatesWhenEditing(boolean isEditing) {
-        categoryFormFieldCategory.setEnabled(isEditing);
+        categoryFormFieldName.setEnabled(isEditing);
+        categoryFormFieldDescription.setEnabled(isEditing);
 
     }
     
     @Override
     public void cleanForm() {
-       categoryFormFieldCategory.setText("");  
+       categoryFormFieldName.setText("");  
        categoryFormFieldId.setText("");
+       categoryFormFieldDescription.setText("");
+    }
+    
+    @Override
+    public void cleanFilter() {
+       categoryFilterFieldId.setText("");  
+       categoryFilterFieldName.setText("");
     }
 
        @Override
     protected void formSave() {
-        Integer id = Utils.isEmpty(categoryFormFieldId.getText()) ? 0: Integer.valueOf(categoryFormFieldId.getText());
-        String category = categoryFormFieldCategory.getText();
-        if(Utils.isEmpty(category)) {
-           Dialogs.DialogError("Category field is empty!");
+        Integer id = Utils.isEmpty(categoryFormFieldId.getText()) ? null: Integer.valueOf(categoryFormFieldId.getText());
+        String name = categoryFormFieldName.getText();
+        String description = categoryFormFieldDescription.getText();
+        
+        if(Utils.isEmpty(name)) {
+           Dialogs.DialogError("Name field is empty!");
            return;
         }
         
-        CategoryDto categoryDto = new CategoryDto(id,category);
+        if(Utils.isEmpty(description)) {
+           Dialogs.DialogError("Description field is empty!");
+           return;
+        }
+        
+        CategoryDto categoryDto = new CategoryDto(id, name, description);
         this.categoryController.save(categoryDto);
-        categoryFormFieldCategory.setText("");
+        
+        cleanForm();
         
         updateTable();
         
@@ -110,7 +156,13 @@ public class Category extends DefaultFormAndTable{
 
     @Override
     protected void formRemove() {
-        Integer id = Integer.valueOf(categoryFormFieldId.getText());
+        Integer id = Utils.toInteger(categoryFormFieldId.getText());
+
+        if(id == 0) {
+            Dialogs.DialogError("Category not selected!");
+           return;
+            
+        }
         this.categoryController.remove(id);
         
         updateTable();
@@ -118,17 +170,19 @@ public class Category extends DefaultFormAndTable{
 
     @Override
     protected void createTable() {
-        table = tableManager.createTable( defaultPaneTable,  new Object[] {100, 980}, CategoryDto.class );
+        table = tableManager.createTable( defaultPaneTable,  new Object[] {100, 245, 735}, CategoryDto.class );
         tableModel = (DefaultTableModel)table.getModel();
 
     }
 
     @Override
     protected void search() {
-        String categoryFilter = categoryFilterFieldCategory.getText();
-        categoryFilterFieldCategory.setText("");
+        Integer id = Utils.toInteger(categoryFilterFieldId.getText());
+        String name = categoryFilterFieldName.getText();
         
-        ArrayList<CategoryDto> categories = categoryController.get(new CategoryDto(categoryFilter));
+        cleanFilter();
+        
+        ArrayList<CategoryDto> categories = categoryController.get(new CategoryDto(id, name));
         updateTable(categories);
     }
 
@@ -146,12 +200,13 @@ public class Category extends DefaultFormAndTable{
     @Override
     protected void updateForm() {
         categoryFormFieldId.setText(Utils.getTableColumnValue(table, 0));
-        categoryFormFieldCategory.setText(Utils.getTableColumnValue(table, 1));
+        categoryFormFieldName.setText(Utils.getTableColumnValue(table, 1));
+        categoryFormFieldDescription.setText(Utils.getTableColumnValue(table, 2));
     }
 
     @Override
     protected void formConfigListener() {
-        categoryFormFieldCategory.addKeyListener(new KeyAdapter() {
+        categoryFormFieldName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                  if(e.getKeyCode() == KeyEvent.VK_ENTER){
@@ -165,7 +220,7 @@ public class Category extends DefaultFormAndTable{
 
     @Override
     protected void filterConfigListener() {
-       categoryFilterFieldCategory.addKeyListener(new KeyAdapter() {
+       categoryFilterFieldName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                  if(e.getKeyCode() == KeyEvent.VK_ENTER){

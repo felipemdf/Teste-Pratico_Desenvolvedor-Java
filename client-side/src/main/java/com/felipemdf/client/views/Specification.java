@@ -1,12 +1,12 @@
 package com.felipemdf.client.views;
 
-import com.felipemdf.client.controllers.CategoryController;
-import com.felipemdf.client.dtos.CategoryDto;
+
+import com.felipemdf.client.controllers.SpecificationController;
+import com.felipemdf.client.dtos.SpecificationDto;
 import com.felipemdf.client.utils.Dialogs;
 import com.felipemdf.client.utils.Utils;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -14,29 +14,33 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
+
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author fmari_v4rpu9g
- */
+
 public class Specification extends DefaultFormAndTable{
     
-    CategoryController categoryController;
+    SpecificationController specificationController;
     
-    JLabel categoryFormLabelCategory;
-    JTextField categoryFormFieldCategory;
+    JLabel specificationFormLabelName;
+    JTextField specificationFormFieldName;
     
-    JLabel categoryFormLabelId;
-    JTextField categoryFormFieldId;
+    JLabel specificationFormLabelId;
+    JTextField specificationFormFieldId;
     
-    JLabel categoryFilterLabelCategory;
-    JTextField categoryFilterFieldCategory;
+    JLabel specificationFormLabelDescription;
+    JTextField specificationFormFieldDescription;
     
-    public Specification (CategoryController categoryController) {
-         setTitle("Rental Cats - Category");
-         this.categoryController = categoryController;
+    JLabel specificationFilterLabelId;
+    JTextField specificationFilterFieldId;
+
+    JLabel specificationFilterLabelName;
+    JTextField specificationFilterFieldName;
+    
+    public Specification (SpecificationController specificationController) {
+         setTitle("Rental Cats - Specification");
+         this.specificationController = specificationController;
          
          updateTable();
     }
@@ -44,65 +48,102 @@ public class Specification extends DefaultFormAndTable{
     @Override
     public void initializeComponents () {
         
-        categoryFormLabelId = new JLabel("Id");
-        categoryFormLabelId.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        categoryFormLabelId.setBounds(defaultTitleRegister.getX(), defaultTitleRegister.getY() + 40, 50, 50);
+        specificationFormLabelId = new JLabel("Id");
+        specificationFormLabelId.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        specificationFormLabelId.setBounds(defaultTitleRegister.getX(), defaultTitleRegister.getY() + 40, 50, 35);
         
-        categoryFormFieldId = new JTextField("");
-        categoryFormFieldId.setBounds(categoryFormLabelId.getX() - 2, categoryFormLabelId.getY() + 40, 100, 40);
-        categoryFormFieldId.setEnabled(false);
+        specificationFormFieldId = new JTextField("");
+        specificationFormFieldId.setBounds(specificationFormLabelId.getX() - 1, specificationFormLabelId.getY() + 40, 100, 35);
+        specificationFormFieldId.setEnabled(false);
         
-        defaultPaneForm.add(categoryFormLabelId);
-        defaultPaneForm.add(categoryFormFieldId);
-        
-        
-        
-        categoryFormLabelCategory = new JLabel("Category");
-        categoryFormLabelCategory.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        categoryFormLabelCategory.setBounds(categoryFormFieldId.getX() + categoryFormFieldId.getWidth() + 50, defaultTitleRegister.getY() + 40, 150, 50);  
-        
-        categoryFormFieldCategory = new JTextField("");
-        categoryFormFieldCategory.setBounds(categoryFormLabelCategory.getX() - 2, categoryFormLabelCategory.getY() + 40, 500, 40);
-        
-        defaultPaneForm.add(categoryFormLabelCategory);
-        defaultPaneForm.add(categoryFormFieldCategory);
+        defaultPaneForm.add(specificationFormLabelId);
+        defaultPaneForm.add(specificationFormFieldId);
         
         
-        categoryFilterLabelCategory = new JLabel("Category");
-        categoryFilterLabelCategory.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        categoryFilterLabelCategory.setBounds(defaultTitleFilter.getX(), defaultTitleFilter.getY() + 40, 100, 50);
         
-        categoryFilterFieldCategory = new JTextField("");
-        categoryFilterFieldCategory.setBounds(categoryFilterLabelCategory.getX() - 2, categoryFilterLabelCategory.getY() + 40, 400, 40);
+        specificationFormLabelName = new JLabel("Name");
+        specificationFormLabelName.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        specificationFormLabelName.setBounds(specificationFormFieldId.getX() + specificationFormFieldId.getWidth() + 30, specificationFormLabelId.getY(), 150, 35);  
         
-        defaultPaneFilter.add(categoryFilterLabelCategory);
-        defaultPaneFilter.add(categoryFilterFieldCategory);
+        specificationFormFieldName = new JTextField("");
+        specificationFormFieldName.setBounds(specificationFormLabelName.getX() - 1, specificationFormLabelName.getY() + 40, 400, 35);
+        
+        defaultPaneForm.add(specificationFormLabelName);
+        defaultPaneForm.add(specificationFormFieldName);
+        
+        
+        specificationFormLabelDescription = new JLabel("Description");
+        specificationFormLabelDescription.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        specificationFormLabelDescription.setBounds(specificationFormFieldId.getX(), specificationFormFieldId.getY() + 40, 100, 35);
+        
+        specificationFormFieldDescription = new JTextField("");
+        specificationFormFieldDescription.setBounds(specificationFormLabelDescription.getX() - 1, specificationFormLabelDescription.getY() + 40, 1100, 35);
+        
+        defaultPaneForm.add(specificationFormLabelDescription);
+        defaultPaneForm.add(specificationFormFieldDescription);
+        
+        
+        specificationFilterLabelId = new JLabel("Id");
+        specificationFilterLabelId.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        specificationFilterLabelId.setBounds(defaultTitleFilter.getX(), defaultTitleFilter.getY() + 40, 50, 35);
+        
+        specificationFilterFieldId = new JTextField("");
+        specificationFilterFieldId.setBounds(specificationFilterLabelId.getX() - 2, specificationFilterLabelId.getY() + 40, 100, 35);
+        
+        defaultPaneFilter.add(specificationFilterLabelId);
+        defaultPaneFilter.add(specificationFilterFieldId);
+        
+        
+        specificationFilterLabelName = new JLabel("Name");
+        specificationFilterLabelName.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        specificationFilterLabelName.setBounds(specificationFilterFieldId.getX()  + specificationFilterFieldId.getWidth() + 30, specificationFilterLabelId.getY(), 100, 35);
+        
+        specificationFilterFieldName = new JTextField("");
+        specificationFilterFieldName.setBounds(specificationFilterLabelName.getX(), specificationFilterFieldId.getY(), 400, 35);
+        
+        defaultPaneFilter.add(specificationFilterLabelName);
+        defaultPaneFilter.add(specificationFilterFieldName);
     }
 
     @Override
     public void alterFormComponentsStatesWhenEditing(boolean isEditing) {
-        categoryFormFieldCategory.setEnabled(isEditing);
+        specificationFormFieldName.setEnabled(isEditing);
+        specificationFormFieldDescription.setEnabled(isEditing);
 
     }
     
     @Override
     public void cleanForm() {
-       categoryFormFieldCategory.setText("");  
-       categoryFormFieldId.setText("");
+       specificationFormFieldName.setText("");  
+       specificationFormFieldId.setText("");
+       specificationFormFieldDescription.setText("");
     }
 
-       @Override
+    @Override
+    public void cleanFilter() {
+       specificationFilterFieldId.setText("");  
+       specificationFilterFieldName.setText("");
+    }
+    @Override
     protected void formSave() {
-        Integer id = Utils.isEmpty(categoryFormFieldId.getText()) ? 0: Integer.valueOf(categoryFormFieldId.getText());
-        String category = categoryFormFieldCategory.getText();
-        if(Utils.isEmpty(category)) {
-           Dialogs.DialogError("Category field is empty!");
+        Integer id = Utils.isEmpty(specificationFormFieldId.getText()) ? null: Integer.valueOf(specificationFormFieldId.getText());
+        String name = specificationFormFieldName.getText();
+        String description = specificationFormFieldDescription.getText();
+        
+        if(Utils.isEmpty(name)) {
+           Dialogs.DialogError("Name field is empty!");
            return;
         }
         
-        CategoryDto categoryDto = new CategoryDto(id,category);
-        this.categoryController.save(categoryDto);
-        categoryFormFieldCategory.setText("");
+        if(Utils.isEmpty(description)) {
+           Dialogs.DialogError("Description field is empty!");
+           return;
+        }
+        
+        SpecificationDto specificationDto = new SpecificationDto(id, name, description);
+        this.specificationController.save(specificationDto);
+        
+        cleanForm();
         
         updateTable();
         
@@ -110,48 +151,57 @@ public class Specification extends DefaultFormAndTable{
 
     @Override
     protected void formRemove() {
-        Integer id = Integer.valueOf(categoryFormFieldId.getText());
-        this.categoryController.remove(id);
+        Integer id = Utils.toInteger(specificationFormFieldId.getText());
+
+        if(id == 0) {
+            Dialogs.DialogError("Specification not selected!");
+           return;
+            
+        }
+        this.specificationController.remove(id);
         
         updateTable();
     }
 
     @Override
     protected void createTable() {
-        table = tableManager.createTable( defaultPaneTable,  new Object[] {100, 980}, CategoryDto.class );
+        table = tableManager.createTable( defaultPaneTable,  new Object[] {100, 245, 735}, SpecificationDto.class );
         tableModel = (DefaultTableModel)table.getModel();
 
     }
 
     @Override
     protected void search() {
-        String categoryFilter = categoryFilterFieldCategory.getText();
-        categoryFilterFieldCategory.setText("");
+        Integer id = Utils.toInteger(specificationFilterFieldId.getText());
+        String name = specificationFilterFieldName.getText();
+        specificationFilterFieldName.setText("");
+        specificationFilterFieldId.setText("");
         
-        ArrayList<CategoryDto> categories = categoryController.get(new CategoryDto(categoryFilter));
-        updateTable(categories);
+        ArrayList<SpecificationDto> specification = specificationController.get(new SpecificationDto(id, name));
+        updateTable(specification);
     }
 
     @Override
     protected void updateTable() {
-         ArrayList<CategoryDto> categories =  categoryController.getAll();
-         updateTable(categories);
+         ArrayList<SpecificationDto> specifications =  specificationController.getAll();
+         updateTable(specifications);
     }
     
     @Override
     protected void updateTable(ArrayList<?> list) {
-         tableManager.insertData(tableModel, categoryController.toObjectArray((ArrayList<CategoryDto>) list));
+         tableManager.insertData(tableModel, specificationController.toObjectArray((ArrayList<SpecificationDto>) list));
     }
 
     @Override
     protected void updateForm() {
-        categoryFormFieldId.setText(Utils.getTableColumnValue(table, 0));
-        categoryFormFieldCategory.setText(Utils.getTableColumnValue(table, 1));
+        specificationFormFieldId.setText(Utils.getTableColumnValue(table, 0));
+        specificationFormFieldName.setText(Utils.getTableColumnValue(table, 1));
+        specificationFormFieldDescription.setText(Utils.getTableColumnValue(table, 2));
     }
 
     @Override
     protected void formConfigListener() {
-        categoryFormFieldCategory.addKeyListener(new KeyAdapter() {
+        specificationFormFieldName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                  if(e.getKeyCode() == KeyEvent.VK_ENTER){
@@ -165,7 +215,7 @@ public class Specification extends DefaultFormAndTable{
 
     @Override
     protected void filterConfigListener() {
-       categoryFilterFieldCategory.addKeyListener(new KeyAdapter() {
+       specificationFilterFieldName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                  if(e.getKeyCode() == KeyEvent.VK_ENTER){

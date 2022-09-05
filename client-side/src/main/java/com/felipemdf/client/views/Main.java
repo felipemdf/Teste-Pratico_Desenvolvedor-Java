@@ -5,6 +5,7 @@
 package com.felipemdf.client.views;
 
 import com.felipemdf.client.controllers.CategoryController;
+import com.felipemdf.client.controllers.SpecificationController;
 import java.awt.TextArea;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -57,17 +58,17 @@ public class Main extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
 
-        MainDesktopPane.setPreferredSize(new java.awt.Dimension(2000, 1000));
+        MainDesktopPane.setPreferredSize(new java.awt.Dimension(1200, 800));
 
         javax.swing.GroupLayout MainDesktopPaneLayout = new javax.swing.GroupLayout(MainDesktopPane);
         MainDesktopPane.setLayout(MainDesktopPaneLayout);
         MainDesktopPaneLayout.setHorizontalGroup(
             MainDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2000, Short.MAX_VALUE)
+            .addGap(0, 1208, Short.MAX_VALUE)
         );
         MainDesktopPaneLayout.setVerticalGroup(
             MainDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 781, Short.MAX_VALUE)
         );
 
         MainMenuCustomers.setText("Customers");
@@ -95,6 +96,11 @@ public class Main extends javax.swing.JFrame {
         MainMenuCars.add(jSeparator2);
 
         MainItemSpecifications.setText("Specifications");
+        MainItemSpecifications.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MainItemSpecificationsActionPerformed(evt);
+            }
+        });
         MainMenuCars.add(MainItemSpecifications);
         MainMenuCars.add(jSeparator4);
 
@@ -129,15 +135,11 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(MainDesktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(MainDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1208, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(MainDesktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(MainDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE)
         );
 
         setSize(new java.awt.Dimension(1214, 807));
@@ -164,6 +166,14 @@ public class Main extends javax.swing.JFrame {
     private void MainMenuCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MainMenuCustomersMouseClicked
 
     }//GEN-LAST:event_MainMenuCustomersMouseClicked
+
+    private void MainItemSpecificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainItemSpecificationsActionPerformed
+        Specification specification = new Specification(new SpecificationController());
+        MainDesktopPane.add(specification);
+        
+        specification.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
+        specification.setVisible(true);
+    }//GEN-LAST:event_MainItemSpecificationsActionPerformed
 
     /**
      * @param args the command line arguments

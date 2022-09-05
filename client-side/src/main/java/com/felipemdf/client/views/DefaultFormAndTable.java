@@ -26,6 +26,7 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
     protected abstract void formSave();
     protected abstract void formRemove();
     protected abstract void cleanForm();
+    protected abstract void cleanFilter();
     protected abstract void updateForm();
     
     protected abstract void search();
@@ -62,7 +63,7 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
     protected void alterButtonsStatesWhenEditing(boolean isEditing, boolean hasTableItemSelected) {
         defaultButtonNew1.setEnabled(!isEditing);
         defaultButtonEdit.setEnabled(!isEditing && hasTableItemSelected);
-        defaultButtonRemove.setEnabled(!isEditing);
+        defaultButtonRemove.setEnabled(!isEditing && hasTableItemSelected);
         
         defaultButtonSave.setEnabled(isEditing);
         dategoryButtonCancel.setEnabled(isEditing);
@@ -195,7 +196,7 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
                     .addComponent(dategoryButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(defaultButtonClose, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(defaultButtonNew1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         defaultPaneForm.setMaximumSize(null);
@@ -209,19 +210,19 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
         defaultPaneFormLayout.setHorizontalGroup(
             defaultPaneFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(defaultPaneFormLayout.createSequentialGroup()
-                .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 1090, Short.MAX_VALUE)
+                .addGroup(defaultPaneFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 1090, Short.MAX_VALUE)
+                    .addGroup(defaultPaneFormLayout.createSequentialGroup()
+                        .addComponent(defaultTitleRegister)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(defaultPaneFormLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(defaultTitleRegister)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         defaultPaneFormLayout.setVerticalGroup(
             defaultPaneFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(defaultPaneFormLayout.createSequentialGroup()
                 .addComponent(defaultTitleRegister)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         defaultTitleFilter.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -242,21 +243,18 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
         defaultPaneFilterLayout.setHorizontalGroup(
             defaultPaneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(defaultPaneFilterLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(defaultPaneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(defaultPaneFilterLayout.createSequentialGroup()
-                        .addComponent(defaultTitleFilter)
-                        .addGap(1029, 1029, 1029))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, defaultPaneFilterLayout.createSequentialGroup()
-                        .addComponent(defaultButtonSearch)
-                        .addGap(15, 15, 15))))
+                        .addGap(976, 976, 976)
+                        .addComponent(defaultButtonSearch))
+                    .addComponent(defaultTitleFilter))
+                .addGap(15, 15, 15))
         );
         defaultPaneFilterLayout.setVerticalGroup(
             defaultPaneFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(defaultPaneFilterLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(defaultTitleFilter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                 .addComponent(defaultButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -296,8 +294,8 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(defaultPaneForm, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(defaultPaneForm, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(defaultPaneFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(defaultPaneTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

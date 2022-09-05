@@ -17,4 +17,10 @@ public class Utils {
         
         return (columnValue == null) ? "": columnValue.toString();
     }
+    
+     public static Integer toInteger (String string) {
+        return (isEmpty(string) ? null: Integer.parseInt(string));
+    }
+    
+    
 }
