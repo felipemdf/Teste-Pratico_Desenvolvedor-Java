@@ -5,6 +5,7 @@
 package com.felipemdf.client.views;
 
 import com.felipemdf.client.controllers.CategoryController;
+import com.felipemdf.client.controllers.CustomerController;
 import com.felipemdf.client.controllers.SpecificationController;
 import java.awt.TextArea;
 import javax.swing.JDialog;
@@ -164,7 +165,11 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_MainMenuCustomersActionPerformed
 
     private void MainMenuCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MainMenuCustomersMouseClicked
-
+        Customer customer = new Customer(new CustomerController());
+        MainDesktopPane.add(customer);
+        
+        customer.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
+        customer.setVisible(true);
     }//GEN-LAST:event_MainMenuCustomersMouseClicked
 
     private void MainItemSpecificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainItemSpecificationsActionPerformed

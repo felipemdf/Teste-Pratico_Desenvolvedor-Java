@@ -1,5 +1,7 @@
 package com.felipemdf.client.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JTable;
 
 /**
@@ -14,13 +16,35 @@ public class Utils {
 
     public static String getTableColumnValue (JTable table, int pos) {
         Object columnValue = table.getValueAt(table.getSelectedRow(), pos);
-        
         return (columnValue == null) ? "": columnValue.toString();
     }
     
      public static Integer toInteger (String string) {
-        return (isEmpty(string) ? null: Integer.parseInt(string));
+        return (isEmpty(string) ? null : Integer.parseInt(string));
     }
     
+     public static Date formatDate(Date date) {
+         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+         Date formatedDate = null;
+         try {
+             formatedDate = dateFormat.parse(dateFormat.format(date));
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+         
+         return formatedDate;
+     }
+     
+     public static String formatDateToString(Date date) {
+         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+         String formatedDate = null;
+         try {
+             formatedDate = dateFormat.format(date);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+         
+         return formatedDate;
+     }
     
 }

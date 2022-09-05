@@ -137,11 +137,13 @@ public class Category extends DefaultFormAndTable{
         
         if(Utils.isEmpty(name)) {
            Dialogs.DialogError("Name field is empty!");
+           cleanForm();
            return;
         }
         
         if(Utils.isEmpty(description)) {
            Dialogs.DialogError("Description field is empty!");
+           cleanForm();
            return;
         }
         
@@ -158,7 +160,7 @@ public class Category extends DefaultFormAndTable{
     protected void formRemove() {
         Integer id = Utils.toInteger(categoryFormFieldId.getText());
 
-        if(id == 0) {
+        if(id == null || id == 0) {
             Dialogs.DialogError("Category not selected!");
            return;
             
@@ -205,8 +207,17 @@ public class Category extends DefaultFormAndTable{
     }
 
     @Override
-    protected void formConfigListener() {
+    protected void formConfigListener() { 
         categoryFormFieldName.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    categoryFormFieldDescription.requestFocus();
+                 }
+            }
+        });
+        
+        categoryFormFieldDescription.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                  if(e.getKeyCode() == KeyEvent.VK_ENTER){
@@ -220,6 +231,15 @@ public class Category extends DefaultFormAndTable{
 
     @Override
     protected void filterConfigListener() {
+        categoryFilterFieldId.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    categoryFilterFieldName.requestFocus();
+                 }
+            }
+        });
+        
        categoryFilterFieldName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {

@@ -132,11 +132,13 @@ public class Specification extends DefaultFormAndTable{
         
         if(Utils.isEmpty(name)) {
            Dialogs.DialogError("Name field is empty!");
+           cleanForm();
            return;
         }
         
         if(Utils.isEmpty(description)) {
            Dialogs.DialogError("Description field is empty!");
+           cleanForm();
            return;
         }
         
@@ -153,7 +155,7 @@ public class Specification extends DefaultFormAndTable{
     protected void formRemove() {
         Integer id = Utils.toInteger(specificationFormFieldId.getText());
 
-        if(id == 0) {
+        if(id == null || id == 0) {
             Dialogs.DialogError("Specification not selected!");
            return;
             
@@ -205,6 +207,15 @@ public class Specification extends DefaultFormAndTable{
             @Override
             public void keyReleased(KeyEvent e) {
                  if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                      specificationFormFieldDescription.requestFocus();
+                 }
+            }
+        });
+        
+        specificationFormFieldDescription.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                       alterButtonsStatesWhenEditing(false);
                         alterFormComponentsStatesWhenEditing(false);
                         formSave();
@@ -215,6 +226,15 @@ public class Specification extends DefaultFormAndTable{
 
     @Override
     protected void filterConfigListener() {
+        specificationFilterFieldId.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                      specificationFilterFieldName.requestFocus();
+                 }
+            }
+        });
+        
        specificationFilterFieldName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {

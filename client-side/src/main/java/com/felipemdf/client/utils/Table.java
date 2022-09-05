@@ -29,7 +29,7 @@ public class Table {
             
             table.setVisible(true);
             JScrollPane jScrollPane = new JScrollPane(table);
-            jScrollPane.setBounds(8, 30, 1080, 250);
+            jScrollPane.setBounds(5, 30, 1080, 225); //1090
             jScrollPane.setVisible(true);
             jPanel.add(jScrollPane);
             
