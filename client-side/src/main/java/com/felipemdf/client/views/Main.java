@@ -4,6 +4,8 @@
  */
 package com.felipemdf.client.views;
 
+import com.felipemdf.client.controllers.BrandController;
+import com.felipemdf.client.controllers.CarController;
 import com.felipemdf.client.controllers.CategoryController;
 import com.felipemdf.client.controllers.CustomerController;
 import com.felipemdf.client.controllers.SpecificationController;
@@ -44,7 +46,7 @@ public class Main extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         MainItemBrands = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        MainItemCats = new javax.swing.JMenuItem();
+        MainItemCars = new javax.swing.JMenuItem();
         MainMenuRentals = new javax.swing.JMenu();
         MainItemSchedules = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -53,10 +55,8 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Rental Cars");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMaximumSize(null);
         setMinimumSize(null);
         setName("PrincipalFrame"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
 
         MainDesktopPane.setPreferredSize(new java.awt.Dimension(1200, 800));
@@ -86,6 +86,11 @@ public class Main extends javax.swing.JFrame {
         CategoryMenuNavigation.add(MainMenuCustomers);
 
         MainMenuCars.setText("Cars");
+        MainMenuCars.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MainMenuCarsActionPerformed(evt);
+            }
+        });
 
         MainItemCategories.setText("Categories");
         MainItemCategories.addActionListener(new java.awt.event.ActionListener() {
@@ -106,16 +111,21 @@ public class Main extends javax.swing.JFrame {
         MainMenuCars.add(jSeparator4);
 
         MainItemBrands.setText("Brands");
+        MainItemBrands.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MainItemBrandsActionPerformed(evt);
+            }
+        });
         MainMenuCars.add(MainItemBrands);
         MainMenuCars.add(jSeparator5);
 
-        MainItemCats.setText("Cars");
-        MainItemCats.addActionListener(new java.awt.event.ActionListener() {
+        MainItemCars.setText("Cars");
+        MainItemCars.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MainItemCatsActionPerformed(evt);
+                MainItemCarsActionPerformed(evt);
             }
         });
-        MainMenuCars.add(MainItemCats);
+        MainMenuCars.add(MainItemCars);
 
         CategoryMenuNavigation.add(MainMenuCars);
 
@@ -156,9 +166,13 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_MainItemCategoriesActionPerformed
 
-    private void MainItemCatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainItemCatsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MainItemCatsActionPerformed
+    private void MainItemCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainItemCarsActionPerformed
+        Car car = new Car(new CarController());
+        MainDesktopPane.add(car);
+        
+        car.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
+        car.setVisible(true);
+    }//GEN-LAST:event_MainItemCarsActionPerformed
 
     private void MainMenuCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuCustomersActionPerformed
 
@@ -179,6 +193,18 @@ public class Main extends javax.swing.JFrame {
         specification.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
         specification.setVisible(true);
     }//GEN-LAST:event_MainItemSpecificationsActionPerformed
+
+    private void MainMenuCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuCarsActionPerformed
+
+    }//GEN-LAST:event_MainMenuCarsActionPerformed
+
+    private void MainItemBrandsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainItemBrandsActionPerformed
+        Brand brand = new Brand(new BrandController());
+        MainDesktopPane.add(brand);
+        
+        brand.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
+        brand.setVisible(true);
+    }//GEN-LAST:event_MainItemBrandsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,8 +246,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuBar CategoryMenuNavigation;
     private javax.swing.JDesktopPane MainDesktopPane;
     private javax.swing.JMenuItem MainItemBrands;
+    private javax.swing.JMenuItem MainItemCars;
     private javax.swing.JMenuItem MainItemCategories;
-    private javax.swing.JMenuItem MainItemCats;
     private javax.swing.JMenuItem MainItemRentals;
     private javax.swing.JMenuItem MainItemSchedules;
     private javax.swing.JMenuItem MainItemSpecifications;

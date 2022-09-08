@@ -38,4 +38,21 @@ public class Dialogs {
         UIManager.put("OptionPane.minimumSize",new Dimension(300, 120)); 
         JOptionPane.showMessageDialog(null, panel, "Error Message", JOptionPane.ERROR_MESSAGE);
     }
+    
+     public static void BigDialogError(String message) {
+       
+        JPanel panel = new JPanel();
+        panel.setSize(new Dimension(600, 64));
+        panel.setLayout(null);
+        
+        JLabel label = new JLabel(message, JLabel.CENTER);
+        label.setBounds(0, 0, 600, 64);
+        label.setFont(new Font("Arial", Font.BOLD, 12));
+        label.setForeground(Color.red);
+        //label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(label);
+        
+        UIManager.put("OptionPane.minimumSize",new Dimension(500, 120)); 
+        JOptionPane.showMessageDialog(null, panel, "Error Message", JOptionPane.ERROR_MESSAGE);
+    }
 }

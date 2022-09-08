@@ -1,7 +1,14 @@
 package com.felipemdf.client.utils;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.imageio.ImageIO;
 import javax.swing.JTable;
 
 /**
@@ -20,7 +27,7 @@ public class Utils {
     }
     
      public static Integer toInteger (String string) {
-        return (isEmpty(string) ? null : Integer.parseInt(string));
+        return (isEmpty(string) ? 0 : Integer.parseInt(string));
     }
     
      public static Date formatDate(Date date) {
@@ -46,5 +53,18 @@ public class Utils {
          
          return formatedDate;
      }
+     
+     public static byte[] bufferImageToByte (BufferedImage imageBuffer, String format) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(imageBuffer, format, baos);
+        byte[] bytes = baos.toByteArray();
+        baos.close();
+        return bytes;
+     } 
     
+     public static BufferedImage byteToBufferImage(byte[] bytes) throws IOException {
+        InputStream inputStream = new ByteArrayInputStream(bytes);
+        BufferedImage bufferImage = ImageIO.read(inputStream);
+        return bufferImage;
+     }
 }

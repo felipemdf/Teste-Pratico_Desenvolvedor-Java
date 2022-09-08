@@ -53,6 +53,43 @@ public class Table {
             
             return table;
         }
+        
+         public JTable createTable2(JPanel jPanel, Object[] width, Class<?> dtoClass) throws NullPointerException {
+           
+            JTable table = new JTable(new DefaultTableModel(){
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+                
+            });
+            
+            table.setVisible(true);
+            JScrollPane jScrollPane = new JScrollPane(table);
+            jScrollPane.setBounds(5, 30, 300, 500); //1090
+            jScrollPane.setVisible(true);
+            jPanel.add(jScrollPane);
+            
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            
+            Arrays.asList(dtoClass.getDeclaredFields()).forEach(att -> {
+                model.addColumn(att.getName());
+            });
+                
+            DefaultTableCellRenderer center = new DefaultTableCellRenderer();
+            DefaultTableCellRenderer rigth = new DefaultTableCellRenderer();
+            DefaultTableCellRenderer left = new DefaultTableCellRenderer();
+            center.setHorizontalAlignment(SwingConstants.CENTER);
+            rigth.setHorizontalAlignment(SwingConstants.RIGHT);
+            left.setHorizontalAlignment(SwingConstants.LEFT);
+            
+            for (int i = 0; i < width.length; i++) {
+           
+                table.getColumnModel().getColumn(i).setMaxWidth(Integer.parseInt(width[i].toString()));
+            }
+            
+            return table;
+        }
     
         public void insertData(DefaultTableModel tableModel, ArrayList<Object[]> data) {
             tableModel.setNumRows(0);

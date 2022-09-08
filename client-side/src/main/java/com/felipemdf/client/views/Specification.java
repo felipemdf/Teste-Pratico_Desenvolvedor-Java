@@ -201,47 +201,7 @@ public class Specification extends DefaultFormAndTable{
         specificationFormFieldDescription.setText(Utils.getTableColumnValue(table, 2));
     }
 
-    @Override
-    protected void formConfigListener() {
-        specificationFormFieldName.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                      specificationFormFieldDescription.requestFocus();
-                 }
-            }
-        });
-        
-        specificationFormFieldDescription.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                      alterButtonsStatesWhenEditing(false);
-                        alterFormComponentsStatesWhenEditing(false);
-                        formSave();
-                 }
-            }
-        });
-    }
 
-    @Override
-    protected void filterConfigListener() {
-        specificationFilterFieldId.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                      specificationFilterFieldName.requestFocus();
-                 }
-            }
-        });
-        
-       specificationFilterFieldName.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                      search();
-                 }
-            }
-        });
-    }
+
+    
 }

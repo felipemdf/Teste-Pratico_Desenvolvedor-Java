@@ -206,47 +206,6 @@ public class Category extends DefaultFormAndTable{
         categoryFormFieldDescription.setText(Utils.getTableColumnValue(table, 2));
     }
 
-    @Override
-    protected void formConfigListener() { 
-        categoryFormFieldName.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    categoryFormFieldDescription.requestFocus();
-                 }
-            }
-        });
-        
-        categoryFormFieldDescription.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                      alterButtonsStatesWhenEditing(false);
-                        alterFormComponentsStatesWhenEditing(false);
-                        formSave();
-                 }
-            }
-        });
-    }
-
-    @Override
-    protected void filterConfigListener() {
-        categoryFilterFieldId.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    categoryFilterFieldName.requestFocus();
-                 }
-            }
-        });
-        
-       categoryFilterFieldName.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                      search();
-                 }
-            }
-        });
-    }
+    
+    
 }

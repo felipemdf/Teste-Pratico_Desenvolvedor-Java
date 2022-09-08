@@ -310,8 +310,8 @@ public class Customer extends DefaultFormAndTable{
         
         cleanFilter();
         
-        ArrayList<CustomerDto> categories = customerController.get(new CustomerDto(id, name, driverLicense));
-        updateTable(categories);
+        ArrayList<CustomerDto> customers = customerController.get(new CustomerDto(id, name, driverLicense));
+        updateTable(customers);
     }
 
     @Override
@@ -337,31 +337,5 @@ public class Customer extends DefaultFormAndTable{
         
     }
 
-    @Override
-    protected void formConfigListener() { 
-      
-        
-      
-    }
-
-    @Override
-    protected void filterConfigListener() {
-        filterFieldId.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    filterFieldName.requestFocus();
-                 }
-            }
-        });
-        
-       filterFieldName.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                      search();
-                 }
-            }
-        });
-    }
+   
 }

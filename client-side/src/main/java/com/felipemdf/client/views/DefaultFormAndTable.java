@@ -33,9 +33,7 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
     protected abstract void createTable();
     protected abstract void updateTable(ArrayList<?> list);
     protected abstract void updateTable();
-    
-    protected abstract void formConfigListener();
-    protected abstract void filterConfigListener();
+   
     
     protected JTable table;
     protected DefaultTableModel tableModel;
@@ -51,8 +49,6 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
         alterFormComponentsStatesWhenEditing(false);
         createTable();
         tableConfigListener();
-        formConfigListener();
-        filterConfigListener();
     }
     
     protected void alterButtonsStatesWhenEditing(boolean isEditing) {
