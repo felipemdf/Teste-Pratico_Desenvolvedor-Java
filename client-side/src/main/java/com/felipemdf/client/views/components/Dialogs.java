@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.felipemdf.client.utils;
+package com.felipemdf.client.views.components;
 
+import com.felipemdf.client.dtos.ResponseDto;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,38 +23,41 @@ import javax.swing.UIManager;
  * @author fmari_v4rpu9g
  */
 public class Dialogs {
-    
-    public static void DialogError(String message) {
-       
+   
+    public static void dialogMessage(boolean isError, String message) {
+        dialogMessage(new ResponseDto(isError, message));
+    }
+    public static void dialogMessage(ResponseDto response) {
+        String title = "Message Error";
+        int image = JOptionPane.ERROR_MESSAGE;
+        Color color = Color.red;
+        int width = 500;
+        int heigth =64;
+        
+        if(!response.isIsError()){
+            title = "Success Error";
+            image = JOptionPane.INFORMATION_MESSAGE;
+            color = Color.BLACK;
+            width = 200;
+            heigth = 64;
+        }        
+        
+        
         JPanel panel = new JPanel();
-        panel.setSize(new Dimension(200, 64));
+       
+        panel.setPreferredSize(new Dimension(width, heigth));
         panel.setLayout(null);
-        
-        JLabel label = new JLabel(message, JLabel.CENTER);
-        label.setBounds(0, 0, 200, 64);
+
+        JLabel label = new JLabel("<HTML>" + response.getMessage() + "</HTML>");
+        label.setBounds(0, 0, width, heigth);
         label.setFont(new Font("Arial", Font.BOLD, 12));
-        label.setForeground(Color.red);
-        //label.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(label);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
         
-        UIManager.put("OptionPane.minimumSize",new Dimension(300, 120)); 
-        JOptionPane.showMessageDialog(null, panel, "Error Message", JOptionPane.ERROR_MESSAGE);
+        panel.add(label);
+
+        UIManager.put("OptionPane.minimumSize",new Dimension(width, heigth));  
+        JOptionPane.showMessageDialog(null, panel, title, image);
     }
     
-     public static void BigDialogError(String message) {
-       
-        JPanel panel = new JPanel();
-        panel.setSize(new Dimension(600, 64));
-        panel.setLayout(null);
-        
-        JLabel label = new JLabel(message, JLabel.CENTER);
-        label.setBounds(0, 0, 600, 64);
-        label.setFont(new Font("Arial", Font.BOLD, 12));
-        label.setForeground(Color.red);
-        //label.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(label);
-        
-        UIManager.put("OptionPane.minimumSize",new Dimension(500, 120)); 
-        JOptionPane.showMessageDialog(null, panel, "Error Message", JOptionPane.ERROR_MESSAGE);
-    }
+
 }

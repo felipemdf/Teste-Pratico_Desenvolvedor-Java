@@ -1,73 +1,113 @@
-package com.felipemdf.client.controllers;
+package com.felipemdf.client.services;
 
-import com.felipemdf.client.dtos.BrandDto;
-import com.felipemdf.client.interfaces.IFormController;
-import com.felipemdf.client.utils.Utils;
+import com.felipemdf.client.dtos.CarImageDto;
+import com.felipemdf.client.dtos.CategoryDto;
+import com.felipemdf.client.dtos.CarImageDto;
+import com.felipemdf.client.dtos.ResponseDto;
+import com.felipemdf.client.views.Main;
 import java.util.ArrayList;
-import static java.util.stream.Collectors.toList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class BrandController implements IFormController<BrandDto>{
+import com.felipemdf.client.interfaces.IFormService;
+import com.felipemdf.client.utils.HttpRequest;
+import com.felipemdf.client.utils.Utils;
+import com.google.gson.reflect.TypeToken;
+import java.util.HashMap;
 
-    public static  ArrayList<BrandDto> brandDatabase = new ArrayList<>(); 
+public class CarImageService implements IFormService<CarImageDto> {
+
+    private static ArrayList<CarImageDto> localImages;
+    private static Long carId;
+
+    private final String BASE_URL = "http://" + Main.HOST + ":" + Main.PORT + "/image";
+
+    Logger logger = Logger.getLogger(CarImageService.class.getName());
+
+    HttpRequest<CarImageDto> http;
+
+    public CarImageService(Long carId) {
+        this.http = new HttpRequest(BASE_URL);
+        this.localImages = new ArrayList<>();
+        this.carId = carId;
+    }
 
     @Override
-    public boolean save(BrandDto brandDto) {
+    public ResponseDto save(CarImageDto imageDto) {
+
         try {
-            if(brandDto.getId() == null) {
-                brandDatabase.add(brandDto);
-                return true;
-            }
-            
-            BrandDto category = brandDatabase.stream().filter(c -> c.getId() == brandDto.getId()).findFirst().get();
-            category.setName(brandDto.getName());
-            return true;
-            
+            imageDto.getCar().setId(carId);
+            ResponseDto response = http.save(BASE_URL, imageDto);
+
+            return response;
         } catch (Exception e) {
-            System.err.println(e);
-            return false;
+            logger.log(Level.SEVERE, null, e);
+            return new ResponseDto(true, e.getMessage());
         }
 
     }
 
     @Override
-    public boolean remove(int id) {
+    public ResponseDto remove(Long id) {
         try {
-             BrandDto brand = brandDatabase.stream().filter(c -> c.getId() == id).findFirst().get();
-             brandDatabase.remove(brand);
-             return true;
+            ResponseDto response = http.delete(BASE_URL, id);
+            return response;
         } catch (Exception e) {
-            System.err.println(e);
-            return false;
-        }     
+            logger.log(Level.SEVERE, null, e);
+            return new ResponseDto(true, e.getMessage());
+        }
     }
 
     @Override
-    public ArrayList<BrandDto> getAll() {
-        return brandDatabase;
+    public ArrayList<CarImageDto> getAll() {
+        ArrayList<CarImageDto> images = new ArrayList<>();
+        try {
+            images = http.getAll(BASE_URL + "/" + carId, new TypeToken<ArrayList<CarImageDto>>() {
+            });
+            fillLocalData(images);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, null, e);
+        }
+
+        return images;
     }
 
     @Override
-    public ArrayList<BrandDto> get(BrandDto filter) {
-        
-        return (ArrayList<BrandDto>) brandDatabase.stream().filter(c ->{
-            return (
-                    (filter.getId() != null ? c.getId() == filter.getId(): true) &&
-                    (!Utils.isEmpty(filter.getName())? c.getName().equals(filter.getName()) : true)
-            );
-        }).collect(toList());
-       
+    public ArrayList<CarImageDto> get(HashMap<String, String> filter) {
+        return null;
     }
 
     @Override
-    public ArrayList<Object[]> toObjectArray(ArrayList<BrandDto> list) {
+    public ArrayList<Object[]> toObjectArray(ArrayList<CarImageDto> list) {
         ArrayList<Object[]> data = new ArrayList<>();
-        
-        list.forEach(category -> {
-            data.add(new Object[] {category.getId(), category.getName()});
+
+        list.forEach(brand -> {
+            data.add(new Object[]{brand.getId(), brand.getImage()});
         });
         return data;
     }
-    
-   
 
+    @Override
+    public ResponseDto update(Long id, CarImageDto object) {
+        return null;
+    }
+
+    public void fillLocalData(ArrayList<CarImageDto> images) {
+        this.localImages = images;
+    }
+
+    public byte[] getLocalDataById(Long id) {
+        try {
+            for (CarImageDto localImage : localImages) {
+                if (localImage.getId() == id) {
+                    return Utils.base64ToByteArray(localImage.getImage());
+                }
+            }
+
+            return null;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, null, e);
+            return null;
+        }
+    }
 }

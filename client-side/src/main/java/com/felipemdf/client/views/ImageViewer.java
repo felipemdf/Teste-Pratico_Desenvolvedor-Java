@@ -4,19 +4,17 @@
  */
 package com.felipemdf.client.views;
 
-import com.felipemdf.client.controllers.ImageController;
-import com.felipemdf.client.dtos.CategoryDto;
-import com.felipemdf.client.dtos.ImageDto;
-import com.felipemdf.client.utils.Dialogs;
-import com.felipemdf.client.utils.Table;
+
+import com.felipemdf.client.dtos.CarImageDto;
+import com.felipemdf.client.dtos.ResponseDto;
+import com.felipemdf.client.services.CarImageService;
+import com.felipemdf.client.services.CarService;
+import com.felipemdf.client.views.components.Dialogs;
 import com.felipemdf.client.utils.Utils;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -25,11 +23,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRootPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import jdk.jshell.execution.Util;
 import net.coobird.thumbnailator.Thumbnails;
 
 /**
@@ -38,61 +33,69 @@ import net.coobird.thumbnailator.Thumbnails;
  */
 public class ImageViewer extends javax.swing.JFrame {
 
-    
-    ImageController imageController;
+    CarImageService imageService;
     JFileChooser fileChooser;
     JLabel imageLabel;
     DefaultTableModel tableModel;
-    
-    public ImageViewer(ImageController imageController) {
+
+    int indexCar = -1;
+
+    public ImageViewer(CarImageService imageService) {
         initComponents();
-        
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);   
         setLocationRelativeTo(null);
         this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-        
-        this.imageController = imageController;
-        
+
+        this.imageService = imageService;
+
         tableModel = (DefaultTableModel) table.getModel();
         table.setDefaultEditor(Object.class, null);
-        
+
         imageLabel = new JLabel();
-        imageLabel.setBounds(0,0, 680, 640);
+        imageLabel.setBounds(0, 0, 680, 640);
         paneImage.add(imageLabel);
-        
+
         fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter( "Image files", ImageIO.getReaderFileSuffixes()  ));
-       
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes()));
+
+        updateTable();
     }
 
-    public void updateTable () {
+    public void updateTable() {
+        ArrayList<CarImageDto> images = imageService.getAll();
+        updateTable(images);
+    }
+
+    public void updateTable(ArrayList<CarImageDto> images) {
         tableModel.setNumRows(0);
-        imageController.getAll().forEach(image -> {
-            tableModel.addRow(new Object[] {image.getId(), image.getFileName()});
+        images.forEach(image -> {
+            tableModel.addRow(new Object[]{image.getId()});
         });
     }
 
-
-    public void saveImage(BufferedImage imageBuffer, String fileName) {
-         try {
+    public void saveImage(BufferedImage imageBuffer, String format) {
+        try {
             BufferedImage imageRezized = Thumbnails.of(imageBuffer)
-                            .size(680, 580)
-                            .asBufferedImage();
+                    .size(680, 580)
+                    .asBufferedImage();
 
-            imageController.add(imageRezized, fileName);
+            imageService.save(new CarImageDto(Utils.bufferImageToBase64(imageRezized, format)));
             updateTable();
-            
+
             showImage(imageRezized);
         } catch (Exception e) {
             System.err.println(e);
         }
     };
     
-    public void showImage (BufferedImage image) {
-        if(image == null)
+    public void showImage(BufferedImage image) {
+        if (image == null) {
             imageLabel.setIcon(null);
+        }
         imageLabel.setIcon(new ImageIcon(image));
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,11 +135,11 @@ public class ImageViewer extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "File"
+                "Id"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class
+                java.lang.Long.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -218,57 +221,58 @@ public class ImageViewer extends javax.swing.JFrame {
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int action = fileChooser.showSaveDialog(null);
-        
-        if(action == JFileChooser.APPROVE_OPTION) {
+
+        if (action == JFileChooser.APPROVE_OPTION) {
             String path = fileChooser.getSelectedFile().getAbsolutePath();
-            String fileName = fileChooser.getSelectedFile().getName();
+            int indexDot = fileChooser.getSelectedFile().getName().lastIndexOf(".");
+            String format = fileChooser.getSelectedFile().getName().substring(indexDot + 1);
             try {
                 BufferedImage image = ImageIO.read(new File(path));
-                saveImage(image, fileName);
+                saveImage(image, format);
 
             } catch (IOException ex) {
                 Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-                Dialogs.BigDialogError("Image " + path + " not found!"); 
-            } 
+                Dialogs.dialogMessage(true, "Image " + path + " not found!");
+            }
         }
     }//GEN-LAST:event_buttonAddActionPerformed
 
     private void buttonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveActionPerformed
 
-       int id = getTableIdSelected();
+        Long idImageTable = getTableIdSelected();
 
-       if(id == -1) {
-           Dialogs.DialogError("Please, select a row in the table!");
-           return;
-       }
-         
-       if(!imageController.remove(id)){
-           Dialogs.DialogError("Could not possible remove the image!");
-           return;
-       }
-       
-       updateTable();
-       showImage(null);
+        if (idImageTable == null) {
+            Dialogs.dialogMessage(true, "Please, select a row in the table!");
+            return;
+        }
+
+        ResponseDto response = imageService.remove(idImageTable);
+        Dialogs.dialogMessage(response);
+        
+        updateTable();
+        showImage(null);
     }//GEN-LAST:event_buttonRemoveActionPerformed
 
-    public int getTableIdSelected () {
-        int row = table.getSelectedRow(); 
-        
-        if(row == -1) 
-           return -1;
-        
-        return (Integer) table.getModel().getValueAt(row, 0);
+    public Long getTableIdSelected() {
+        int row = table.getSelectedRow();
+
+        if (row == -1) {
+            return null;
+        }
+
+        return (Long) table.getModel().getValueAt(row, 0);
     }
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        int id = getTableIdSelected();
-        
-        if(id == -1)
+        Long id = getTableIdSelected();
+
+        if (id == null) {
             showImage(null);
-        
-        ImageDto image = imageController.get(id);
-        
+        }
+
+        byte[] image = imageService.getLocalDataById(id);
+
         try {
-            showImage(Utils.byteToBufferImage(image.getImage()));
+            showImage(Utils.byteToBufferImage(image));
         } catch (Exception e) {
             System.err.print(e);
         }
@@ -277,7 +281,6 @@ public class ImageViewer extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdd;

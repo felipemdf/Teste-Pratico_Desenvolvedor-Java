@@ -4,7 +4,7 @@
  */
 package com.felipemdf.client.views;
 
-import com.felipemdf.client.utils.Table;
+import com.felipemdf.client.views.components.Table;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -99,6 +99,24 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
             e1.printStackTrace();
         }
         setVisible(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         defaultPaneButtons.setMaximumSize(getSize());
 
@@ -305,10 +323,8 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
         table.addMouseListener(new MouseAdapter() {
              @Override
              public void mouseClicked(MouseEvent e) {
-                 if(e.getClickCount() == 2) {
-                    updateForm();
-                    alterButtonsStatesWhenEditing(false, true);
-                 }
+                 updateForm();
+                 alterButtonsStatesWhenEditing(false, true);
              } 
         });    
     }
@@ -327,6 +343,8 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
 
     private void defaultButtonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtonRemoveActionPerformed
         formRemove();
+        alterButtonsStatesWhenEditing(false);
+     
     }//GEN-LAST:event_defaultButtonRemoveActionPerformed
 
     private void defaultButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtonSaveActionPerformed
@@ -350,6 +368,14 @@ public abstract class DefaultFormAndTable extends javax.swing.JInternalFrame {
     private void defaultButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultButtonSearchActionPerformed
         search();
     }//GEN-LAST:event_defaultButtonSearchActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+     
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+   
+    }//GEN-LAST:event_formInternalFrameActivated
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

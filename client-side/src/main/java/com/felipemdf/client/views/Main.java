@@ -4,14 +4,12 @@
  */
 package com.felipemdf.client.views;
 
-import com.felipemdf.client.controllers.BrandController;
-import com.felipemdf.client.controllers.CarController;
-import com.felipemdf.client.controllers.CategoryController;
-import com.felipemdf.client.controllers.CustomerController;
-import com.felipemdf.client.controllers.SpecificationController;
-import java.awt.TextArea;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
+import com.felipemdf.client.services.BrandService;
+import com.felipemdf.client.services.CarService;
+import com.felipemdf.client.services.CategoryService;
+import com.felipemdf.client.services.CustomerController;
+import com.felipemdf.client.services.SpecificationService;
+
 
 /**
  *
@@ -19,12 +17,19 @@ import javax.swing.JFrame;
  */
 public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Category
-     */
+    public static final String HOST = "127.0.0.1";
+    public static final String PORT = "8080";
+
+    private Brand brandScreen;
+    private Car carScreen;
+    private Category categoryScreen;
+    private Customer customerScreen;
+    private Specification specificationScreen;
+
     public Main() {
         initComponents();
 
+      
     }
 
     /**
@@ -158,20 +163,31 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MainItemCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainItemCategoriesActionPerformed
-        Category categoryScreen = new Category(new CategoryController());
+
+        if (categoryScreen != null) {
+            MainDesktopPane.remove(categoryScreen);
+        }
+
+        categoryScreen = new Category(new CategoryService());
         MainDesktopPane.add(categoryScreen);
-        
+        categoryScreen.toFront();
         categoryScreen.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
         categoryScreen.setVisible(true);
 
     }//GEN-LAST:event_MainItemCategoriesActionPerformed
 
     private void MainItemCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainItemCarsActionPerformed
-        Car car = new Car(new CarController());
-        MainDesktopPane.add(car);
-        
-        car.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
-        car.setVisible(true);
+
+        if (carScreen != null) {
+            MainDesktopPane.remove(carScreen);
+        }
+
+        carScreen = new Car(new CarService());
+        MainDesktopPane.add(carScreen);
+        carScreen.toFront();
+
+        carScreen.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
+        carScreen.setVisible(true);
     }//GEN-LAST:event_MainItemCarsActionPerformed
 
     private void MainMenuCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuCustomersActionPerformed
@@ -179,19 +195,31 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_MainMenuCustomersActionPerformed
 
     private void MainMenuCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MainMenuCustomersMouseClicked
-        Customer customer = new Customer(new CustomerController());
-        MainDesktopPane.add(customer);
-        
-        customer.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
-        customer.setVisible(true);
+
+        if (customerScreen != null) {
+            MainDesktopPane.remove(customerScreen);
+        }
+
+        customerScreen = new Customer(new CustomerController());
+        MainDesktopPane.add(customerScreen);
+        customerScreen.toFront();
+
+        customerScreen.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
+        customerScreen.setVisible(true);
     }//GEN-LAST:event_MainMenuCustomersMouseClicked
 
     private void MainItemSpecificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainItemSpecificationsActionPerformed
-        Specification specification = new Specification(new SpecificationController());
-        MainDesktopPane.add(specification);
-        
-        specification.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
-        specification.setVisible(true);
+
+        if (specificationScreen != null) {
+            MainDesktopPane.remove(specificationScreen);
+        }
+
+        specificationScreen = new Specification(new SpecificationService());
+        MainDesktopPane.add(specificationScreen);
+        specificationScreen.toFront();
+
+        specificationScreen.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
+        specificationScreen.setVisible(true);
     }//GEN-LAST:event_MainItemSpecificationsActionPerformed
 
     private void MainMenuCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuCarsActionPerformed
@@ -199,11 +227,17 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_MainMenuCarsActionPerformed
 
     private void MainItemBrandsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainItemBrandsActionPerformed
-        Brand brand = new Brand(new BrandController());
-        MainDesktopPane.add(brand);
-        
-        brand.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
-        brand.setVisible(true);
+
+        if (brandScreen != null) {
+            MainDesktopPane.remove(brandScreen);
+        }
+
+        brandScreen = new Brand(new BrandService());
+        MainDesktopPane.add(brandScreen);
+        brandScreen.toFront();
+
+        brandScreen.setSize(MainDesktopPane.getWidth(), MainDesktopPane.getHeight());
+        brandScreen.setVisible(true);
     }//GEN-LAST:event_MainItemBrandsActionPerformed
 
     /**

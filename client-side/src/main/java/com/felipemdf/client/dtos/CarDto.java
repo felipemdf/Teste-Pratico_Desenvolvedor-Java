@@ -1,46 +1,48 @@
 package com.felipemdf.client.dtos;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.ArrayList;
 
+public class CarDto implements Serializable{
 
-public class CarDto {
-    private Integer id; //
-    private String name; 
-    private String description; 
-    private BigDecimal dailyRate;  
+    private Long id; //
+    private String name;
+    private String description;
+    private BigDecimal dailyRate;
     private Boolean avaliable;
-    private String licensePlate; 
-    private Integer brandId; 
-    private Integer categoryId;
+    private String licensePlate;
+    private BrandDto brand;
+    private CategoryDto category;
+    private ArrayList<SpecificationDto> specifications;
     private String color;
 
-  public CarDto(Integer id, String name, String licensePlate) {
-      this.id = id;
-      this.name = name;
-      this.licensePlate = licensePlate;
-  }
     public CarDto() {}
-    public CarDto(Integer id, String name, String description, BigDecimal dailyRate, Boolean avaliable, String licensePlate, Integer brandId, Integer categoryId, String color) {
+
+    public CarDto(Long id, String name, String licensePlate) {
+        this.id = id;
+        this.name = name;
+        this.licensePlate = licensePlate;
+    }
+
+    public CarDto(Long id, String name, String description, BigDecimal dailyRate, Boolean avaliable, String licensePlate, BrandDto brand, CategoryDto category, ArrayList<SpecificationDto> specifications, String color) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.dailyRate = dailyRate;
         this.avaliable = avaliable;
         this.licensePlate = licensePlate;
-        this.brandId = brandId;
-        this.categoryId = categoryId;
+        this.brand = brand;
+        this.category = category;
+        this.specifications = specifications;
         this.color = color;
     }
 
-    
-    
-    
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -84,21 +86,32 @@ public class CarDto {
         this.licensePlate = licensePlate;
     }
 
-    public Integer getBrandId() {
-        return brandId;
+    public BrandDto getBrand() {
+        return brand;
     }
 
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
+    public void setBrand(BrandDto brand) {
+        this.brand = brand;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public CategoryDto getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(CategoryDto category) {
+        this.category = category;
     }
+
+    public ArrayList<SpecificationDto> getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(ArrayList<SpecificationDto> specifications) {
+        this.specifications = specifications;
+    }
+
+
+    
 
     public String getColor() {
         return color;
@@ -107,6 +120,7 @@ public class CarDto {
     public void setColor(String color) {
         this.color = color;
     }
+
     
-    
+
 }

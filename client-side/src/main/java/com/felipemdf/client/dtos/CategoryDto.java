@@ -4,36 +4,44 @@
  */
 package com.felipemdf.client.dtos;
 
+import java.io.Serializable;
 
-public class CategoryDto {
-    private Integer id;
+public class CategoryDto implements Serializable{
+
+    private Long id;
     private String name;
     private String description;
 
+    public CategoryDto() {
+    }
+      
+    public CategoryDto(Long id) {
+        this.id = id;
+    }
 
     public CategoryDto(String name) {
         this(null, name, null);
     }
-    
-    public CategoryDto(Integer id, String name) {
-       this(id, name, null);
+
+    public CategoryDto(Long id, String name) {
+        this(id, name, null);
     }
-     
-     public CategoryDto(String name, String description) {
-       this(null, name, description);
+
+    public CategoryDto(String name, String description) {
+        this(null, name, description);
     }
-    
-    public CategoryDto(Integer id, String name, String description) {
+
+    public CategoryDto(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,6 +60,5 @@ public class CategoryDto {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
+
 }

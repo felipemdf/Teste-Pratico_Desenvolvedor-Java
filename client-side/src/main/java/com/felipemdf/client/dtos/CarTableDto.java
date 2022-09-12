@@ -1,46 +1,26 @@
 package com.felipemdf.client.dtos;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 
+public class CarTableDto implements Serializable{
 
-public class CarDto {
-    private Integer id; //
-    private String name; 
-    private String description; 
-    private BigDecimal dailyRate;  
-    private Boolean avaliable;
-    private String licensePlate; 
-    private Integer brandId; 
-    private Integer categoryId;
+    private Long id; 
+    private String name;
+    private BigDecimal dailyRate;
+    private String licensePlate;
+    private BrandDto brand;
+    private CategoryDto category;
     private String color;
 
-  public CarDto(Integer id, String name, String licensePlate) {
-      this.id = id;
-      this.name = name;
-      this.licensePlate = licensePlate;
-  }
-    public CarDto() {}
-    public CarDto(Integer id, String name, String description, BigDecimal dailyRate, Boolean avaliable, String licensePlate, Integer brandId, Integer categoryId, String color) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.dailyRate = dailyRate;
-        this.avaliable = avaliable;
-        this.licensePlate = licensePlate;
-        this.brandId = brandId;
-        this.categoryId = categoryId;
-        this.color = color;
-    }
-
-    
-    
-    
-    public Integer getId() {
+  
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,14 +32,7 @@ public class CarDto {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+   
     public BigDecimal getDailyRate() {
         return dailyRate;
     }
@@ -68,13 +41,6 @@ public class CarDto {
         this.dailyRate = dailyRate;
     }
 
-    public Boolean getAvaliable() {
-        return avaliable;
-    }
-
-    public void setAvaliable(Boolean avaliable) {
-        this.avaliable = avaliable;
-    }
 
     public String getLicensePlate() {
         return licensePlate;
@@ -84,20 +50,20 @@ public class CarDto {
         this.licensePlate = licensePlate;
     }
 
-    public Integer getBrandId() {
-        return brandId;
+    public BrandDto getBrand() {
+        return brand;
     }
 
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
+    public void setBrand(BrandDto brand) {
+        this.brand = brand;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public CategoryDto getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(CategoryDto category) {
+        this.category = category;
     }
 
     public String getColor() {
@@ -107,6 +73,7 @@ public class CarDto {
     public void setColor(String color) {
         this.color = color;
     }
+
     
-    
+
 }

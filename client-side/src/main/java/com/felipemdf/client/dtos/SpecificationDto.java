@@ -4,18 +4,22 @@
  */
 package com.felipemdf.client.dtos;
 
+import java.io.Serializable;
 
-public class SpecificationDto {
-    private Integer id;
+
+public class SpecificationDto implements Serializable{
+    private Long id;
     private String name;
     private String description;
 
 
+    public SpecificationDto(){}
+    
     public SpecificationDto(String name) {
         this(null, name, null);
     }
     
-    public SpecificationDto(Integer id, String name) {
+    public SpecificationDto(Long id, String name) {
        this(id, name, null);
     }
      
@@ -23,17 +27,17 @@ public class SpecificationDto {
        this(null, name, description);
     }
     
-    public SpecificationDto(Integer id, String name, String description) {
+    public SpecificationDto(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

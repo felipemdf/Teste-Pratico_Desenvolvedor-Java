@@ -1,17 +1,14 @@
 package com.felipemdf.client.views;
 
-import com.felipemdf.client.controllers.CategoryController;
-import com.felipemdf.client.controllers.CustomerController;
+import com.felipemdf.client.services.CategoryService;
+import com.felipemdf.client.services.CustomerController;
 import com.felipemdf.client.dtos.CategoryDto;
 import com.felipemdf.client.dtos.CustomerDto;
-import com.felipemdf.client.utils.Dialogs;
+import com.felipemdf.client.views.components.Dialogs;
 import com.felipemdf.client.utils.Utils;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,7 +62,7 @@ public class Customer extends DefaultFormAndTable{
     // ---------------------------------------------------------------
     
     public Customer (CustomerController customerController) {
-         setTitle("Rental Cats - Customer");
+         setTitle("Rental Cars - Customer");
          this.customerController = customerController;
          
          updateTable();
@@ -242,7 +239,7 @@ public class Customer extends DefaultFormAndTable{
     protected void formSave() {
         
         if(!validateForm()) {
-           Dialogs.DialogError("Please fill out all required fields!");
+           Dialogs.dialogMessage(true, "Please fill out all required fields!");
            cleanForm();
            return;
         }
@@ -286,7 +283,7 @@ public class Customer extends DefaultFormAndTable{
         Integer id = Utils.toInteger(formFieldId.getText());
 
         if(id == null || id == 0) {
-            Dialogs.DialogError("Category not selected!");
+            Dialogs.dialogMessage(true, "Category not selected!");
             return;
             
         }

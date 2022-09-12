@@ -5,22 +5,21 @@
 package com.felipemdf.client.dtos;
 
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
 public class ComboBoxDto{
-    private int id;
+    private Long id;
     private String value;
 
-    public ComboBoxDto() {
-
-    }
-    public ComboBoxDto(int id, String value) {
+    public ComboBoxDto() {}
+    public ComboBoxDto(Long id, String value) {
         this.id = id;
         this.value = value;
     }
     
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -33,5 +32,13 @@ public class ComboBoxDto{
         return value;
     }
     
-    
+    public static ComboBoxDto[] toArray(ArrayList<ComboBoxDto> list) {
+       ComboBoxDto[] comboBoxArray = new ComboBoxDto[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            comboBoxArray[i] = list.get(i);
+        }
+      
+        return comboBoxArray;
+    }
 }

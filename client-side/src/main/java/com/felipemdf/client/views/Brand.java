@@ -1,21 +1,16 @@
 package com.felipemdf.client.views;
 
-import com.felipemdf.client.controllers.BrandController;
-import com.felipemdf.client.controllers.CategoryController;
-import com.felipemdf.client.controllers.CustomerController;
+import com.felipemdf.client.services.BrandService;
+
 import com.felipemdf.client.dtos.BrandDto;
-import com.felipemdf.client.dtos.CategoryDto;
-import com.felipemdf.client.utils.Dialogs;
+import com.felipemdf.client.dtos.ResponseDto;
+import com.felipemdf.client.views.components.Dialogs;
 import com.felipemdf.client.utils.Utils;
-import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 
 import javax.swing.JLabel;
 
@@ -30,28 +25,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Brand extends DefaultFormAndTable{
     
-    BrandController brandController;
+    BrandService brandService;
     // FORM ------------------------------------------
     JLabel formLabelName;
     JTextField formFieldName;
     
     JLabel formLabelId;
     JTextField formFieldId;
-    
-    JLabel formLabelDriverLicense;
-    JTextField formFieldDriverLicense;
-    
-    JLabel formLabelBirthDate;
-    JDateChooser jcalendar;
-    
-    JLabel formLabelEmail;
-    JTextField formFieldEmail;
-    
-    JLabel formLabelAddress;
-    JTextField formFieldAddress;
-    
-    JLabel formLabelPhoneNumber;
-    JTextField formFieldPhoneNumber;
     // ---------------------------------------------------------------
     
     // FILTER -------------------------------------------------------
@@ -65,9 +45,9 @@ public class Brand extends DefaultFormAndTable{
     JTextField filterFieldDriverLicense;
     // ---------------------------------------------------------------
     
-    public Brand (BrandController brandController) {
-         setTitle("Rental Cats - Brand");
-         this.brandController = brandController;
+    public Brand (BrandService brandService) {
+         setTitle("Rental Cars - Brand");
+         this.brandService = brandService;
          
          updateTable();
     }
@@ -135,6 +115,7 @@ public class Brand extends DefaultFormAndTable{
     
     @Override
     public void cleanForm() {
+       formFieldId.setText("");
        formFieldName.setText("");  
     }
     
@@ -148,19 +129,25 @@ public class Brand extends DefaultFormAndTable{
     protected void formSave() {
         
         if(!validateForm()) {
-           Dialogs.DialogError("Please fill out all required fields!");
+           Dialogs.dialogMessage(true, "Please fill out all required fields!");
            cleanForm();
            return;
         }
         
-        Integer id = Utils.isEmpty(formFieldId.getText()) ? null: Integer.valueOf(formFieldId.getText());
+        Long id = Utils.toLong(formFieldId.getText());
         String name = formFieldName.getText();
       
 
 
-        BrandDto brandDto = new BrandDto(id, name);
-        this.brandController.save(brandDto);
+        BrandDto brandDto = new BrandDto(name);
+        ResponseDto response;
         
+        if(id == null)
+            response = this.brandService.save(brandDto);
+        else
+            response = this.brandService.update(id, brandDto);
+        
+        Dialogs.dialogMessage(response);
         cleanForm();
         
         updateTable();
@@ -181,15 +168,18 @@ public class Brand extends DefaultFormAndTable{
 
     @Override
     protected void formRemove() {
-        Integer id = Utils.toInteger(formFieldId.getText());
+        Long id = Utils.toLong(formFieldId.getText());
 
         if(id == null || id == 0) {
-            Dialogs.DialogError("Brand not selected!");
+            Dialogs.dialogMessage(true, "Brand not selected!");
             return;
             
         }
-        this.brandController.remove(id);
+        ResponseDto response = this.brandService.remove(id);
+        Dialogs.dialogMessage(response);
         
+        cleanForm();
+        cleanFilter();
         updateTable();
     }
 
@@ -201,25 +191,25 @@ public class Brand extends DefaultFormAndTable{
     }
 
     @Override
-    protected void search() {
-        Integer id = Utils.toInteger(filterFieldId.getText());
-        String name = filterFieldName.getText();
+    protected void search() { 
+        HashMap<String, String> filters = new HashMap();
+        filters.put("id", filterFieldId.getText());
+        filters.put("name", filterFieldName.getText());
 
         cleanFilter();
-        
-        ArrayList<BrandDto> brands = brandController.get(new BrandDto(id, name));
+        ArrayList<BrandDto> brands = brandService.get(filters);
         updateTable(brands);
     }
 
     @Override
     protected void updateTable() {
-         ArrayList<BrandDto> brands =  brandController.getAll();
+         ArrayList<BrandDto> brands =  brandService.getAll();
          updateTable(brands);
     }
     
     @Override
     protected void updateTable(ArrayList<?> list) {
-         tableManager.insertData(tableModel, brandController.toObjectArray((ArrayList<BrandDto>) list));
+         tableManager.insertData(tableModel, brandService.toObjectArray((ArrayList<BrandDto>) list));
     }
 
     @Override

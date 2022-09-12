@@ -1,34 +1,28 @@
-package com.felipemdf.client.controllers;
+package com.felipemdf.client.services;
 
 
+import com.felipemdf.client.dtos.CategoryDto;
 import com.felipemdf.client.dtos.CustomerDto;
-import com.felipemdf.client.interfaces.IFormController;
+import com.felipemdf.client.dtos.ResponseDto;
 import com.felipemdf.client.utils.Utils;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import static java.util.stream.Collectors.toList;
+import com.felipemdf.client.interfaces.IFormService;
 
-public class CustomerController implements IFormController<CustomerDto>{
+public class CustomerController implements IFormService<CustomerDto>{
 
     public static  ArrayList<CustomerDto> customerDatabase = new ArrayList<>(); //USADO PARA SIMULAR O BANCO
 
     @Override
-    public boolean save(CustomerDto customerDto) {
-        try {
-            if(customerDto.getId() == null) {
-                customerDatabase.add(customerDto);
-                return true;
-            }
-            
-            CustomerDto customer = customerDatabase.stream().filter(c -> c.getId() == customerDto.getId()).findFirst().get();
-            customer.setName(customerDto.getName());
-            return true;
-            
-        } catch (Exception e) {
-            System.err.println(e);
-            return false;
-        }
+    public ResponseDto save(CustomerDto customerDto) {
+        return null;
 
+    }
+    
+    @Override
+    public ResponseDto update(CustomerDto customerDto) {
+        return null;
     }
 
     @Override

@@ -4,22 +4,34 @@
  */
 package com.felipemdf.client.dtos;
 
+import java.io.Serializable;
 
-public class BrandDto {
-    private Integer id;
+
+public class BrandDto implements Serializable{
+    private Long id;
     private String name;
 
 
-    public BrandDto(Integer id, String name) {
-        this.id = id;
-        this.name = name;
+    public BrandDto() {}
+    
+    public BrandDto(Long id) {
+         this.id = id;   
+    }
+    
+    public BrandDto(String name) {
+         this.name = name;   
+    }
+    
+    public BrandDto(Long id, String name) {
+         this.name = name;   
+         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

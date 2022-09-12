@@ -1,46 +1,56 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.felipemdf.client.dtos;
 
-
-public class ImageDto {
-    private Integer id;
-    private byte[] image;
-    private String fileName;
+import java.io.Serializable;
 
 
-    public ImageDto(Integer id, byte[] imageName, String base64) {
-        this.id = id;
-        this.image = imageName;
-        this.fileName = base64;
+public class CarImageDto implements Serializable{
+    private Long id;
+    private CarDto car;
+    private String image;
+
+
+    public CarImageDto () {}
+    
+    public CarImageDto(String image) {
+        this.image = image;
+        this.car = new CarDto();
     }
-     
     
-    
-    public Integer getId() {
+    public CarImageDto(Long id, CarDto car,String image) {
+        this.id = id;
+        this.image = image;
+        this.car = car;
+    }
+
+        public CarImageDto(Long id, String image) {
+        this.id = id;
+        this.image = image;
+        this.car = new CarDto();
+    }
+        
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    public String getFileName() {
-        return fileName;
+    public CarDto getCar() {
+        return car;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setCar(CarDto car) {
+        this.car = car;
     }
-   
+
 }

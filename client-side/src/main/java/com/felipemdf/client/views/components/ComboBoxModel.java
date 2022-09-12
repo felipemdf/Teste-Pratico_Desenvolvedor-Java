@@ -2,14 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.felipemdf.client.utils;
+package com.felipemdf.client.views.components;
 
 import com.felipemdf.client.dtos.ComboBoxDto;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
 
 
-import javax.swing.event.ListDataListener;
 
 
 public class ComboBoxModel extends AbstractListModel<ComboBoxDto> implements javax.swing.ComboBoxModel<ComboBoxDto>{
@@ -19,7 +18,7 @@ public class ComboBoxModel extends AbstractListModel<ComboBoxDto> implements jav
     
     public ComboBoxModel(ArrayList<ComboBoxDto> list) {
         this.list = list;
-        setSelectedItem(this.list.get(0));
+        //setSelectedItem(this.list.get(0));
     }
         
     @Override

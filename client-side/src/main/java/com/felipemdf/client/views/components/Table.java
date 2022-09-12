@@ -1,7 +1,7 @@
 
-package com.felipemdf.client.utils;
+package com.felipemdf.client.views.components;
 
-import com.felipemdf.client.controllers.CategoryController;
+import com.felipemdf.client.services.CategoryService;
 import com.sun.source.tree.SwitchTree;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
